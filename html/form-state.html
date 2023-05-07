@@ -1,0 +1,36 @@
+[form onsubmit='submitForm(event)' .is-editing
+  [ .submit-buttons
+    [btn 'Add']
+    [btn 'Update']  
+  ]
+]
+
+<style>
+  form.is-editing 
+    .submit-buttons 
+    button:first-child,
+  form:not(.is-editing) 
+    .submit-buttons 
+    button:last-child,
+  _ {
+    display: none;
+  }
+</style>
+
+
+<script> window.asd = console.log; </script>
+<script>
+
+  function submitForm(evt) {
+    evt.preventDefault();
+    let form = evt.target;
+    let isEditing = form.classList.contains('is-editing');
+    
+    if (isEditing) {
+      // updateData(form)
+    } else {
+      // insertData(form)
+    }
+  }
+
+</script>
