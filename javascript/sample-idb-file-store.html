@@ -1,0 +1,64 @@
+<!-- sample app for storing binary file in indexedDB -->
+<title>Sample IDB File Store</title>
+
+<input type='file' onchange='loadFile(this)' accept='audio/*'/>
+<div style="padding-top:1rem;">
+  <audio id="audio" controls></audio>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/idb@7/build/umd.js"></script>
+<script>
+
+  const DB_NAME = 'sampleapp-ODc0ODg0MQ';
+  const DB_VERSION = 1;
+  const FILE_STORE_NAME = 'bin';
+  const SAMPLE_FILE_NAME = 'music-file'
+  
+  async function loadFile(inputEl) {
+    let file = inputEl.files[0]
+    let url = URL.createObjectURL(file);
+    audio.src = url;
+    
+    let db = await openDB();
+    let tx = db.transaction(FILE_STORE_NAME, 'readwrite');
+    tx.objectStore(FILE_STORE_NAME).put({ 
+      file, 
+      name: SAMPLE_FILE_NAME, 
+    });
+    await tx.done;
+  }
+  
+  function openDB() {
+    return new Promise((resolve, reject) => {
+      let request = window.indexedDB.open(DB_NAME, DB_VERSION);
+      request.onerror = () => reject(request.error);
+      request.onsuccess = () => resolve(request.result);
+      request.onupgradeneeded = (event) => {
+        let db = event.target.result;
+        db.createObjectStore(FILE_STORE_NAME, { 
+          keyPath: 'name', 
+        });
+      };
+    });
+  }
+  
+  async function loadFileFromIDB() {
+    let db = await openDB();
+    let tx = db.transaction(FILE_STORE_NAME, 'readonly');
+    let store = db.transaction(FILE_STORE_NAME).objectStore(FILE_STORE_NAME);
+    let value = store.get(SAMPLE_FILE_NAME);
+    
+    value.onsuccess = async function(request) {
+      let item = request.target.result;
+      if (!item) return;
+      
+      let url = URL.createObjectURL(item.file);
+      audio.src = url;
+    }
+  }
+  
+  openDB().then(() => {
+    loadFileFromIDB();
+  });
+  
+</script>
