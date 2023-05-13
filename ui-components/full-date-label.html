@@ -1,0 +1,22 @@
+<time class="post-date" data-full-date='14 April 2023 20:03'>14 Apr 23</time>
+
+<style>
+  
+  .post-date::after {
+    border: 1px solid;
+    content: attr(data-full-date);
+    position: absolute;
+    display: block;
+    transform: scale(0);
+    transition: 150ms;
+    background: black;
+    color: #efefef;
+    font-size: 0.7em;
+    padding: 2px;
+    transform-origin: 0 0;
+  }
+  .post-date:hover::after {
+    transform: scale(1);
+  }
+  
+</style>
