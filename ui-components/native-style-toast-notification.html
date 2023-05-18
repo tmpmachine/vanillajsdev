@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <title>Native Style Toast Demo</title>
+  <meta name="viewport" content="width=device-width"/>
+  
+</head>
+<body>
+  
+  <button onclick='showToast("It works!")'>Show Toast Notification</button>
+  <div class="container-OTMyMTI4OQ"></div>
+  
+  <style>
+    .container-OTMyMTI4OQ {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+    }
+    .toast-OTMyMTI4OQ {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 8px 16px;
+      background-color: #323232;
+      color: #fff;
+      z-index: 9999;
+      font-size: 14px;
+      line-height: 1.5;
+      border-radius: 16px;
+      opacity: 1;
+      transition: opacity 1s ease-in-out;
+    }
+  </style>
+  
+  
+  <script>
+    window.showToast = (function() {
+      
+      let $ = document.querySelector.bind(document);
+      let toastContainer = $('.container-OTMyMTI4OQ')
+      let toastElement, opacityTimeout, removeTimeout; 
+      
+      function ShowToast(text, timeout = 3000) {
+        if (toastElement) {
+          toastElement.remove();
+        }
+        toastElement = document.createElement('div');
+        toastElement.classList.add('toast-OTMyMTI4OQ');
+        toastElement.textContent = text;
+        toastElement.onclick = onClickHandler;
+        toastContainer.appendChild(toastElement);
+        
+        // override existing toast timeout
+        window.clearTimeout(opacityTimeout);
+        window.clearTimeout(removeTimeout);
+                
+        // hide the toast
+        opacityTimeout = window.setTimeout(() => {
+          toastElement.style.opacity = '0';
+          removeTimeout = window.setTimeout(() => {
+            toastElement.remove();
+          }, 1000);
+        }, timeout);
+      };
+      
+      function onClickHandler(evt) {
+        evt.target.style.opacity = '0'
+        evt.target.remove();
+        window.clearTimeout(opacityTimeout);
+        window.clearTimeout(removeTimeout);
+      }
+      
+      return ShowToast;
+      
+    })();
+  </script>
+  
+</body>
+</html>
