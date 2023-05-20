@@ -1,0 +1,63 @@
+<style>
+  video,canvas { max-height: 300px; }
+</style>
+
+<div style="display:grid;gap:1rem;width:800px;grid-template-columns:1fr 1fr;">
+  <div>
+    <input id="time" type='range' step='0.1'/>
+    <button onclick='takeScreenshot()'>Take screenshot</button>
+    <div>
+      <video id="video" controls></video>
+    </div>
+  </div>
+  <div>
+    <canvas id="canvas" style="border:1px solid;"></canvas>  
+  </div>
+</div>
+
+<script>
+
+  video.src = '' // replace with video file path
+  
+  video.ondurationchange = function() {
+    time.max = video.duration;
+    time.value = 0;
+  }
+  
+  time.oninput = function(event) {
+    let el = event.target;
+    video.currentTime = el.value;
+  }
+  
+  function takeScreenshot() {
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    
+    // draw video to canvas
+    let c = canvas.getContext('2d');
+    c.drawImage(video, 0, 0) 
+    
+    // download screenshot
+    downloadScreenshot(canvas);
+  }
+  
+  function downloadScreenshot() {
+    canvas.toBlob(blob => {
+      downloadBlob(blob);
+    })
+  }
+  
+  function downloadBlob(blob) {
+    let el = document.createElement('a');
+    let url = URL.createObjectURL(blob)
+    el.href = url;
+    el.download = 'screnshot.png';
+    el.onclick = function() {
+      el.remove();
+    };
+    document.body.append(el);
+    el.click();
+  }
+  
+
+</script>
