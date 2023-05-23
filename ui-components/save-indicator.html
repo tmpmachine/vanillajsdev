@@ -1,0 +1,51 @@
+<style>
+  
+  .indicator.saved::after {
+    background: limegreen;
+  }
+  
+  .indicator::after {
+    content: '';
+    background: lightgrey;
+    padding: 4px;
+    display: inline-block;
+    border-radius: 1em;
+    margin-left: 0.3em;
+  }
+  
+  #note {
+    width: 100%;
+    height: 100px;
+  }
+  
+</style>
+
+Status :
+<span class="indicator">(no changes)</span>
+
+<div>
+  <textarea id="note"></textarea>
+</div>
+
+
+<script>
+  
+  let noteEl = document.querySelector('#note');
+  let indicatorEl = document.querySelector('.indicator');
+  let saveTimeout;
+  
+  noteEl.oninput = function(event) {
+    indicatorEl.classList.remove('saved');
+    
+    // don't forget to clear to avoid stacking autoSave
+    window.clearTimeout(saveTimeout);
+    // saved after 250ms
+    saveTimeout = window.setTimeout(autoSave, 250);
+  }
+  
+  function autoSave() {
+    indicatorEl.classList.add('saved');
+    // todo: code to save note
+  }
+  
+</script>
