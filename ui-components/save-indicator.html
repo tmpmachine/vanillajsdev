@@ -36,6 +36,7 @@ Status :
   
   noteEl.oninput = function(event) {
     indicatorEl.classList.remove('saved');
+    indicatorEl.textContent = '(typing...)';
     
     // don't forget to clear to avoid stacking autoSave
     window.clearTimeout(saveTimeout);
@@ -44,6 +45,7 @@ Status :
   }
   
   function autoSave() {
+    indicatorEl.textContent = '(saved)';
     indicatorEl.classList.add('saved');
     // todo: code to save note
   }
