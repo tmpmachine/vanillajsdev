@@ -1,0 +1,48 @@
+<button id="btn-send">Send signal</button>
+
+<script type="module">
+  
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } 
+    from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+  import { getFirestore, doc, updateDoc, increment } 
+    from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "",
+    authDomain: "",
+    databaseURL: "",
+    projectId: "",
+    storageBucket: "",
+    messagingSenderId: "",
+    appId: """
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  
+  
+  // Initialize Cloud Firestore and get a reference to the service
+  const db = getFirestore(app);
+
+
+  // update document
+  async function sendSignal() {
+    
+    let collectionId = "sample";
+    let documentId = "qz7VDOuT20IjAir43UwJ"
+    const washingtonRef = doc(db, collectionId, documentId);
+    
+    // Atomically increment the population of the city by 50.
+    await updateDoc(washingtonRef, {
+      signalCounter: increment(1)
+    });
+    
+  }
+  
+  
+  let btn = document.querySelector('#btn-send');
+  btn.addEventListener('click', sendSignal)
+  
+</script>
