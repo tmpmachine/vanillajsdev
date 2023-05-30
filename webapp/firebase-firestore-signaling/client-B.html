@@ -1,0 +1,52 @@
+<h1>Sample message</h1>
+
+<script type="module">
+  
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } 
+    from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+  import { getFirestore, doc, onSnapshot } 
+    from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "",
+    authDomain: "",
+    databaseURL: "",
+    projectId: "",
+    storageBucket: "",
+    messagingSenderId: "",
+    appId: """
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  
+  
+  // Initialize Cloud Firestore and get a reference to the service
+  const db = getFirestore(app);
+
+
+  // set initial value
+  let initialSignal = -999;
+  
+  // listen for changes 
+  let collectionId = "sample";
+  let documentId = "qz7VDOuT20IjAir43UwJ"
+  const unsub = onSnapshot(doc(db, collectionId, documentId), (doc) => {
+    // console.log("Current data: ", doc.data());
+    
+    let data = doc.data();
+    if (initialSignal == -999) {
+      // first load
+      initialSignal = data.signalCounter;
+    } else {
+      // the actual trigger
+      // todo: do your things here
+      document.querySelector('h1').textContent = 'Counter : ' + data.signalCounter;
+    }
+    
+  });
+
+  
+</script>
