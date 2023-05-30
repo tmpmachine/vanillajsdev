@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+</head>
+<body>
+  
+  To do list goes here :
+  <div id="todo-list"></div>
+  
+  
+  <template id="tmp-item">
+    <div>
+      <input type='checkbox'/>
+      <span>placeholder title</span>
+    </div>
+  </template>
+  
+  <script>
+    
+    function addTodo(title) { 
+      
+      // create a clone
+      let template = 
+        document.querySelector('#tmp-item');
+      let todoItem = 
+        template.content.cloneNode(true);
+        
+      // change the span title
+      let span = todoItem.querySelector('span');
+      span.textContent = title;
+      
+      // add to container
+      let container = 
+        document.querySelector('#todo-list');
+      container.append(todoItem);
+      
+    }
+    
+    addTodo('Make tutorial videos');
+    addTodo('Make thumbnail');
+      
+  </script>
+  
+  
+</body>
+</html>
