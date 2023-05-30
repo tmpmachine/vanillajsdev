@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    
+    <!--input elements-->
+    <div style="padding-bottom:1rem;">
+      Paste video URL here :
+      <input id="in-video-url"/>
+    </div>
+    
+    
+    <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
+    <div id="player"></div>
+
+    <div id="playlist-container" style="margin-top:1rem;">
+      playlist goes here
+    </div>
+    
+    
+    <template id="tmp-video">
+      <div>
+        <span></span>
+        <button class="btn-play">Play</button>
+      </div>
+    </template>
+    
+
+    <script>
+
+document.querySelector('#in-video-url').addEventListener('paste', (event) => {
+      
+    let videoURL = event.clipboardData.getData('text');
+    let videoID = extractYoutubeId(videoURL);
+    
+    // console.log('video URL : ', videoURL)
+    // console.log('video ID : ',videoID)
+    
+    player.cueVideoById(videoID)
+
+})
+
+
+function extractYoutubeId(url) {
+  const youtubeRegex = /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=|embed\/|shorts\/)?([a-zA-Z0-9_-]{11})/;
+  const match = url.match(youtubeRegex);
+  if (match && match[1]) {
+    return match[1];
+  }
+  return null;
+}
+</script>
+    <script>
+      // 2. This code loads the IFrame Player API code asynchronously.
+      var tag = document.createElement('script');
+
+      tag.src = "https://www.youtube.com/iframe_api";
+      var firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+      // 3. This function creates an <iframe> (and YouTube player)
+      //    after the API code downloads.
+      var player;
+      function onYouTubeIframeAPIReady() {
+        player = new YT.Player('player', {
+          height: '390',
+          width: '640',
+          // videoId: 'M7lc1UVf-VE',
+          playerVars: {
+            'playsinline': 1
+          },
+          events: {
+            // 'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+          }
+        });
+      }
+      
+      let playlist = []
+      let playlistContainer = document.querySelector('#playlist-container');
+      
+      function onPlayerStateChange(event) {
+        if (event.data == YT.PlayerState.CUED) {
+          
+          // get video data
+          let title = player.getVideoData().title;
+          let videoId = player.getVideoData().video_id;
+          
+          // store to playlist if not exists
+          let existingVideo = playlist.find(item => item.videoId == videoId);
+          if (!existingVideo) {
+            playlist.push({
+              title,
+              videoId,
+            })
+            // refresh playlist
+            refreshPlaylist()
+          }
+                    
+        }
+      }
+      
+      function refreshPlaylist() {
+        
+        // empty the container
+        playlistContainer.innerHTML = '';
+        
+        // display the playlist item
+        for (let item of playlist) {
+          // create a video item element
+          let template = document.querySelector('#tmp-video');
+          let videoItem = template.content.cloneNode(true);
+          videoItem.querySelector('span').textContent = item.title;
+          videoItem.querySelector('.btn-play').dataset.video = item.videoId;
+          
+          // append to playlist container
+          playlistContainer.append(videoItem)
+        }
+        
+      }
+      
+      // listen for click event on playlist container
+      playlistContainer.addEventListener('click', (event) => {
+        
+        let targetEl = event.target;
+        
+        if (targetEl.matches('.btn-play')) {
+          player.cueVideoById(targetEl.dataset.video)
+        }
+        
+      })
+      
+    </script>
+  </body>
+</html>
