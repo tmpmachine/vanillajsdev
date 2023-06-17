@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+  
+  <style>
+    /* theme color */
+    :root {
+      --radio-color: #03A9F4;
+      --hover-bg: #e7f8fe;
+    }
+    
+    
+    input[type="radio"] + label {
+        border: 1px solid;
+        padding: 2px 6px;
+        display: inline-flex;
+        align-items: center;
+        margin-right: 0.3rem;
+        border-radius: 4px;
+    }
+    
+    input[type="radio"] + label:hover {
+        background: var(--hover-bg);
+        cursor: pointer;
+    }
+    
+    /* hide actual radio */
+    input[type="radio"] {
+        display: none;
+    }
+    
+    /* fake checked state */
+    input[type="radio"]:checked + label::before {
+        background: var(--radio-color);
+        outline-offset: 1px;
+    }
+    
+    /* fake radio */
+    input[type="radio"] + label::before {
+        content: '';
+        aspect-ratio: 1;
+        height: 8px;
+        outline: 1px solid black;
+        border-radius: 1rem;
+        margin-right: 5px;
+    }
+  </style>
+  
+  <!-- I'm using divless HTML -->
+
+  <input id="check-js" type='radio' name='topic'/>
+  <label for='check-js'>Javascript</label>
+  
+  <input id="check-css" type='radio' name='topic'/>
+  <label for='check-css'>CSS</label>
+
+</body>
+</html>
