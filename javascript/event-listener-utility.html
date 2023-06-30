@@ -1,0 +1,35 @@
+<button data-onclick='foo'>click</button>
+<button data-onclick='bar'>submit</button>
+
+
+<script>
+
+  ;(function() {
+    window.listening = function(dataKey, evenType, callbacks) {
+      let elements = document.querySelectorAll(`[data-${dataKey}]`)
+      for (let el of elements) {
+        let callbackFunc = callbacks[el.dataset[dataKey]];
+        el.addEventListener(evenType, callbackFunc);
+      }
+    };
+  })();
+  
+  
+  let DOMEvents = {
+  	onclick: {
+  		'foo': () => foo(),
+  		'bar': () => bar(),
+  	},
+  };
+  
+  function foo() {
+    alert('It works!');
+  }
+  
+  function bar() {
+    alert('It works too!');
+  }
+  
+  window.listening('onclick', 'click', DOMEvents.onclick);
+
+</script>
