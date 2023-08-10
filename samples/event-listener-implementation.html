@@ -1,0 +1,34 @@
+<button data-onclick='foo'>Button 1</button>
+<button data-onclick='some-action'>Button 2</button>
+
+<script>
+  ;(function() {
+    window.listening = function(selector, dataKey, eventType, callbacks) {
+      let elements = document.querySelectorAll(selector)
+      for (let el of elements) {
+        let callbackFunc = callbacks[el.dataset[dataKey]];
+        el.addEventListener(eventType, callbackFunc);
+      }
+    };
+  })();
+</script>
+<script>
+  
+  let DOMEvents = {
+    onclick: {
+    	'foo': () => bar(),
+    	'some-action': () => someAct(),
+    },
+  };
+  
+  function someAct() {
+    alert('Done!')
+  }
+
+  function bar() {
+    alert('It works!');
+  }
+  
+  window.listening('[data-onclick]', 'onclick', 'click', DOMEvents.onclick);
+  
+</script>
