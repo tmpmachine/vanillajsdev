@@ -1,0 +1,30 @@
+<div id="container-item"></div>
+
+<template id='tmp-list-posts'>
+  <div>
+    <div class="title">
+      default title
+    </div>
+    <p class="summary"></p>
+  </div>
+</template>
+
+
+<script> 
+  
+  window.$ = document.querySelector.bind(document); 
+  
+  let containerEl = $('#container-item');
+  
+  let clonedEl = $('#tmp-list-posts').content.cloneNode(true);
+  // modify before append
+  let titleEl = clonedEl.querySelector('.title');
+  titleEl.textContent = 'modified title';
+  
+  // change summary
+  let pEl = clonedEl.querySelector('.summary');
+  pEl.textContent = 'It works!';
+  
+  containerEl.append(clonedEl)
+  
+</script>
