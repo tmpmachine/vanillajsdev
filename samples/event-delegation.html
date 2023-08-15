@@ -1,0 +1,28 @@
+<div class="container-toolbar">
+
+  <button data-action='bold'>Bold</button>
+  <button data-action='italic'>Italic</button>
+
+</div>
+
+
+<script> window.$ = document.querySelector.bind(document); </script>
+<script>
+  
+  let parentEl = $('.container-toolbar');
+  
+  parentEl.addEventListener('click', handler);
+  
+  function handler(event) {
+    
+    let targetEl = event.target;
+    
+    if (targetEl.dataset.action == 'bold') {
+      alert('do bold');
+    } else if (targetEl.dataset.action == 'italic') {
+      alert('do italic');
+    }
+    
+  }
+    
+</script>
