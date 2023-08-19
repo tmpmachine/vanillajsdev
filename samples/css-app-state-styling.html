@@ -1,0 +1,15 @@
+<div class="container-form is-editing">
+  <button class="btn-add">Add</button>
+  <button class="btn-update">Update</button>
+</div>
+
+<style>
+  
+  .container-form:not(.is-editing)
+    .btn-update,
+  .container-form.is-editing 
+    .btn-add {
+    display: none;
+  }
+  
+</style>
