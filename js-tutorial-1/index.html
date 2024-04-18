@@ -1,0 +1,24 @@
+<link href="style.css" rel="stylesheet"/>
+
+[btn 'New item' data-onclick="add-new-item"]
+[hr]
+[ ._containerItems .d-flex .gap-half .flex-column data-onclick="handle-click-items"]
+
+<template id="tmp-item">
+  [ .d-flex .justify-content-between data-kind="item"
+    <!-- # tmp-item -->
+    
+    [ 'default title' data-slot="title"]
+    
+    <!-- # actions -->
+    [
+      [btn 'Edit' data-action="edit"]
+      [btn 'Remove' data-action="remove"]
+    ]
+  ]
+</template>
+
+<script src="dom-events.js"></script>
+<script src="app.js"></script>
+
+<script src="index.js"></script>
