@@ -1,0 +1,16 @@
+<div id="_pipContainer">
+  Hello
+</div>
+<button id="pipBtn">Open in PiP</button>
+
+<script>
+
+  let $ = document.querySelector.bind(document);
+  let pipButton = $('#pipBtn')
+
+  pipButton.addEventListener("click", async () => {
+    const pipContainer = $("#_pipContainer");
+    const pipWindow = await documentPictureInPicture.requestWindow();
+    pipWindow.document.body.append(pipContainer);
+  });
+</script>
